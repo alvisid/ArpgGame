@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class Hero {
@@ -17,7 +18,7 @@ public class Hero {
     public Hero(GameScreen gameScreen) {
         this.gameScreen = gameScreen;
         this.texture = Assets.getInstance().getAtlas().findRegion("Knight");
-        this.position = new Vector2(0, 0);
+        this.position = new Vector2(MathUtils.random(0, 1280), MathUtils.random(0, 720));
         this.tmp = new Vector2(0, 0);
         this.speed = 240.0f;
     }
