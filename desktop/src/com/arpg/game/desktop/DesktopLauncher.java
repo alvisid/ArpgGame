@@ -1,8 +1,8 @@
-package com.arpggame.game.desktop;
+package com.arpg.game.desktop;
 
+import com.arpg.game.ArpgGame;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.arpggame.game.ArpgGame;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {

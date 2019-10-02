@@ -1,18 +1,21 @@
-package com.arpggame.game;
+package com.arpg.game;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.*;
 
 public class ScreenManager {
+    public enum ScreenType {
+        MENU, GAME
+    }
+
     public static final int WORLD_WIDTH = 1280;
     public static final int HALF_WORLD_WIDTH = WORLD_WIDTH / 2;
     public static final int WORLD_HEIGHT = 720;
     public static final int HALF_WORLD_HEIGHT = WORLD_HEIGHT / 2;
-    private static ScreenManager ourInstance = new ScreenManager();
+
     private ArpgGame game;
     private SpriteBatch batch;
     private LoadingScreen loadingScreen;
@@ -21,8 +24,7 @@ public class ScreenManager {
     private Viewport viewport;
     private Camera camera;
 
-    private ScreenManager() {
-    }
+    private static ScreenManager ourInstance = new ScreenManager();
 
     public static ScreenManager getInstance() {
         return ourInstance;
@@ -34,6 +36,9 @@ public class ScreenManager {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    private ScreenManager() {
     }
 
     public void init(ArpgGame game, SpriteBatch batch) {
@@ -74,9 +79,5 @@ public class ScreenManager {
 
     public void goToTarget() {
         game.setScreen(targetScreen);
-    }
-
-    public enum ScreenType {
-        MENU, GAME
     }
 }

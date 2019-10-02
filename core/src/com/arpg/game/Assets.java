@@ -1,4 +1,4 @@
-package com.arpggame.game;
+package com.arpg.game;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
@@ -12,16 +12,13 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 
 public class Assets {
     private static final Assets ourInstance = new Assets();
-    private AssetManager assetManager;
-    private TextureAtlas textureAtlas;
-
-    private Assets() {
-        assetManager = new AssetManager();
-    }
 
     public static Assets getInstance() {
         return ourInstance;
     }
+
+    private AssetManager assetManager;
+    private TextureAtlas textureAtlas;
 
     public TextureAtlas getAtlas() {
         return textureAtlas;
@@ -29,6 +26,10 @@ public class Assets {
 
     public AssetManager getAssetManager() {
         return assetManager;
+    }
+
+    private Assets() {
+        assetManager = new AssetManager();
     }
 
     public void loadAssets(ScreenManager.ScreenType type) {

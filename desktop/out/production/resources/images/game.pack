@@ -31,3 +31,10 @@ Grass
   orig: 80, 80
   offset: 0, 0
   index: -1
+monsterHp
+  rotate: false
+  xy: 2, 84
+  size: 60, 8
+  orig: 60, 8
+  offset: 0, 0
+  index: -1

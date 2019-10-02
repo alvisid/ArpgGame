@@ -1,6 +1,6 @@
-package com.arpggame.game;
+package com.arpg.game;
 
-import com.arpggame.game.utils.Poolable;
+import com.arpg.game.utils.Poolable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 
@@ -12,16 +12,6 @@ public class InfoText implements Poolable {
     private Vector2 velocity;
     private float time;
     private float maxTime;
-
-    public InfoText() {
-        this.text = "";
-        this.active = false;
-        this.position = new Vector2(0.0f, 0.0f);
-        this.velocity = new Vector2(10.0f, 50.0f);
-        this.time = 0.0f;
-        this.maxTime = 1.5f;
-        this.color = Color.WHITE;
-    }
 
     @Override
     public boolean isActive() {
@@ -38,6 +28,16 @@ public class InfoText implements Poolable {
 
     public Color getColor() {
         return color;
+    }
+
+    public InfoText() {
+        this.text = "";
+        this.active = false;
+        this.position = new Vector2(0.0f, 0.0f);
+        this.velocity = new Vector2(10.0f, 50.0f);
+        this.time = 0.0f;
+        this.maxTime = 1.5f;
+        this.color = Color.WHITE;
     }
 
     public void setup(float x, float y, String text, Color color) {

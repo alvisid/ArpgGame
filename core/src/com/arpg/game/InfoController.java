@@ -1,6 +1,6 @@
-package com.arpggame.game;
+package com.arpg.game;
 
-import com.arpggame.game.utils.ObjectPool;
+import com.arpg.game.utils.ObjectPool;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

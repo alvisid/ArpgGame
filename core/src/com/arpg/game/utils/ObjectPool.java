@@ -1,4 +1,4 @@
-package com.arpggame.game.utils;
+package com.arpg.game.utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,16 @@ import java.util.List;
 public abstract class ObjectPool<T extends Poolable> {
     protected List<T> activeList;
     protected List<T> freeList;
+
+    public List<T> getActiveList() {
+        return activeList;
+    }
+
+    protected abstract T newObject();
+
+    public void free(int index) {
+        freeList.add(activeList.remove(index));
+    }
 
     public ObjectPool() {
         this.activeList = new ArrayList<T>();
@@ -18,16 +28,6 @@ public abstract class ObjectPool<T extends Poolable> {
         for (int i = 0; i < size; i++) {
             freeList.add(newObject());
         }
-    }
-
-    public List<T> getActiveList() {
-        return activeList;
-    }
-
-    protected abstract T newObject();
-
-    public void free(int index) {
-        freeList.add(activeList.remove(index));
     }
 
     public T getActiveElement() {

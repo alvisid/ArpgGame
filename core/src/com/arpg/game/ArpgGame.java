@@ -1,6 +1,5 @@
-package com.arpggame.game;
+package com.arpg.game;
 
-import com.arpggame.game.ScreenManager;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -10,6 +9,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ArpgGame extends Game {
 	private SpriteBatch batch;
+
+	// Домашнее задание:
+	// Добавить MonsterController для возможности работы с несколькими монстрами
+	// (см. пример: InfoController)
 
 	@Override
 	public void create() {
