@@ -1,18 +1,18 @@
 package com.arpg.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ArpgGame extends Game {
 	private SpriteBatch batch;
 
 	// Домашнее задание:
-	// Добавить MonsterController для возможности работы с несколькими монстрами
-	// (см. пример: InfoController)
+	// Вероятность появления скелета - 90%, жнеца - 10% (можно добавить зависимость от уроня героя)
+	// Зависимость уровня появляющихся монстров от уровня героя
+	// * Добавить зависимость урона от параметров (статов) героя/монстра
+	// * Добавить получение героем опыта за уничтожение монстров
 
 	@Override
 	public void create() {

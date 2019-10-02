@@ -4,7 +4,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class ScreenManager {
     public enum ScreenType {
@@ -24,9 +25,9 @@ public class ScreenManager {
     private Viewport viewport;
     private Camera camera;
 
-    private static ScreenManager ourInstance = new ScreenManager();
+    private static com.arpg.game.ScreenManager ourInstance = new com.arpg.game.ScreenManager();
 
-    public static ScreenManager getInstance() {
+    public static com.arpg.game.ScreenManager getInstance() {
         return ourInstance;
     }
 
