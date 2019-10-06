@@ -19,22 +19,14 @@ public class Stats {
 
     private int hp;
     private int exp;
-    private int[] expTo = {1000, 2000, 4000, 8000, 16000, 32000};
+    private int[] expTo = {1_000, 2_000, 4_000, 8_000, 16_000, 32_000, 80_000, 150_000, 200_000, 400_000};
 
-    public Stats() {
+    public int getAtt() {
+        return att;
     }
 
-    public Stats(int level, int attBase, int defBase, int hpMaxBase, int attPL, int defPL, int hpMaxPL, float speed) {
-        this.level = level;
-        this.attBase = attBase;
-        this.defBase = defBase;
-        this.hpMaxBase = hpMaxBase;
-        this.attPL = attPL;
-        this.defPL = defPL;
-        this.hpMaxPL = hpMaxPL;
-        this.speed = speed;
-        this.calculate();
-        this.fillHp();
+    public int getDef() {
+        return def;
     }
 
     public int getLevel() {
@@ -53,7 +45,23 @@ public class Stats {
         return hpMax;
     }
 
-    public void set(int level, com.arpg.game.Stats stats) {
+    public Stats() {
+    }
+
+    public Stats(int level, int attBase, int defBase, int hpMaxBase, int attPL, int defPL, int hpMaxPL, float speed) {
+        this.level = level;
+        this.attBase = attBase;
+        this.defBase = defBase;
+        this.hpMaxBase = hpMaxBase;
+        this.attPL = attPL;
+        this.defPL = defPL;
+        this.hpMaxPL = hpMaxPL;
+        this.speed = speed;
+        this.calculate();
+        this.fillHp();
+    }
+
+    public void set(int level, Stats stats) {
         this.level = level;
         this.attBase = stats.attBase;
         this.defBase = stats.defBase;

@@ -3,12 +3,13 @@ package com.arpg.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Hero extends Unit {
     public Hero(GameScreen gameScreen) {
         super(gameScreen);
-        this.texture = Assets.getInstance().getAtlas().findRegion("Knight");
+        this.texture = new TextureRegion(Assets.getInstance().getAtlas().findRegion("Hero")).split(80, 80);
         do {
             this.position.set(MathUtils.random(0, Map.MAP_SIZE_X_PX), MathUtils.random(0, Map.MAP_SIZE_Y_PX));
         } while (!gameScreen.getMap().isCellPassable(position));
@@ -53,6 +54,7 @@ public class Hero extends Unit {
             tmp.set(position);
             tmp.add(direction.getX() * stats.getSpeed() * speedMod * dt, direction.getY() * stats.getSpeed() * speedMod * dt);
             if (gs.getMap().isCellPassable(tmp)) {
+                walkTimer += dt * speedMod;
                 position.set(tmp);
                 area.setPosition(position);
             }
@@ -75,7 +77,7 @@ public class Hero extends Unit {
             for (int i = 0; i < gs.getMonsterController().getActiveList().size(); i++) {
                 Monster m = gs.getMonsterController().getActiveList().get(i);
                 if (m.getArea().contains(tmp)) {
-                    m.takeDamage(weapon.getDamage(), Color.WHITE);
+                    m.takeDamage(this, BattleCalc.calculateDamage(this, m), Color.WHITE);
                     break;
                 }
             }

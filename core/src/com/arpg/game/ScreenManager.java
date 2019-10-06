@@ -25,9 +25,9 @@ public class ScreenManager {
     private Viewport viewport;
     private Camera camera;
 
-    private static com.arpg.game.ScreenManager ourInstance = new com.arpg.game.ScreenManager();
+    private static ScreenManager ourInstance = new ScreenManager();
 
-    public static com.arpg.game.ScreenManager getInstance() {
+    public static ScreenManager getInstance() {
         return ourInstance;
     }
 
