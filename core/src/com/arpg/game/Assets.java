@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 
 public class Assets {
-    private static final Assets ourInstance = new Assets();
+    private static final com.arpg.game.Assets ourInstance = new com.arpg.game.Assets();
 
-    public static Assets getInstance() {
+    public static com.arpg.game.Assets getInstance() {
         return ourInstance;
     }
 

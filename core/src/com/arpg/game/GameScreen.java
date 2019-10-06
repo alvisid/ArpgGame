@@ -4,31 +4,34 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
 public class GameScreen extends AbstractScreen {
     private Map map;
     private Hero hero;
-    private Monster monster;
+    private Bestiary bestiary;
+    private MonsterController monsterController;
     private InfoController infoController;
+    private EffectController effectController;
     private BitmapFont font24;
     private Vector2 mouse;
     private Vector2 tmp;
-    private TextureAtlas atlas;
-    private MonsterController monsterController;
+    private float spawnTimer;
 
+    public MonsterController getMonsterController() {
+        return monsterController;
+    }
 
-    public Monster getMonster() {
-        return monster;
+    public EffectController getEffectController() {
+        return effectController;
+    }
+
+    public Bestiary getBestiary() {
+        return bestiary;
     }
 
     public InfoController getInfoController() {
         return infoController;
-    }
-
-    public MonsterController getMonsterController() {
-        return monsterController;
     }
 
     public Map getMap() {
@@ -47,10 +50,14 @@ public class GameScreen extends AbstractScreen {
     public void show() {
         this.map = new Map();
         this.hero = new Hero(this);
-        this.monster = new Monster(this, atlas);
+        this.bestiary = new Bestiary();
+        this.monsterController = new MonsterController(this);
+        for (int i = 0; i < 5; i++) {
+            this.monsterController.setup(1);
+        }
         this.font24 = Assets.getInstance().getAssetManager().get("fonts/font24.ttf");
         this.infoController = new InfoController();
-        this.monsterController = new MonsterController();
+        this.effectController = new EffectController();
         this.mouse = new Vector2(0.0f, 0.0f);
         this.tmp = new Vector2(0.0f, 0.0f);
     }
@@ -68,49 +75,27 @@ public class GameScreen extends AbstractScreen {
         batch.begin();
         map.render(batch);
         if (hero.isActive()) {
-            hero.render(batch);
+            hero.render(batch, font24);
         }
-        if (monster.isActive()) {
-            monster.render(batch);
-
-        }
-        monsterController.render(batch);
-/*        if (monsterController.activate()) {
-            monster.render(batch);
-//            monsterController.render(batch);
-
-        }*/
+        monsterController.render(batch, font24);
+        effectController.render(batch);
         infoController.render(batch, font24);
         batch.end();
     }
 
     public void update(float dt) {
+        spawnTimer += dt;
+        if (spawnTimer > 1.0f) {
+            spawnTimer = 0.0f;
+            monsterController.setup(1);
+        }
         mouse.set(Gdx.input.getX(), Gdx.input.getY());
         ScreenManager.getInstance().getViewport().unproject(mouse);
         if (hero.isActive()) {
             hero.update(dt);
         }
-        if (monster.isActive()) {
-            monster.update(dt);
-        }
         monsterController.update(dt);
+        effectController.update(dt);
         infoController.update(dt);
-
     }
-
-
-
-
-    // Strength Dexterity Vitality Intelligent
-    // Goblin:
-    // Str = Level * 0.2
-    // Dex = Level * 0.5
-    // Vit = Level * 0.4
-    // Int = Level * 0.05
-    // Dragon:
-    // Str = Level * 10
-    // Dex = Level * 8
-    // Vit = Level * 50
-    // Int = Level * 10
-    // factory.createMonster("Dragon", 5);
 }
