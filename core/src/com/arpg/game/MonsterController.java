@@ -8,13 +8,13 @@ import com.badlogic.gdx.math.MathUtils;
 public class MonsterController extends ObjectPool<Monster> {
     private GameScreen gs;
 
-    public MonsterController(GameScreen gs) {
-        this.gs = gs;
-    }
-
     @Override
     protected Monster newObject() {
         return new Monster(gs);
+    }
+
+    public MonsterController(GameScreen gs) {
+        this.gs = gs;
     }
 
     public void render(SpriteBatch batch, BitmapFont font) {
@@ -25,8 +25,7 @@ public class MonsterController extends ObjectPool<Monster> {
 
     public void setup(int level) {
         int currentLevel = MathUtils.random(level, level + 2);
-        String[] patterns = {"Skeleton", "Reaper"};
-        getActiveElement().setup(currentLevel, -1, -1, gs.getBestiary().getPatternFromTitle(patterns[MathUtils.random(0, 1)]));
+        getActiveElement().setup(currentLevel, -1, -1, gs.getBestiary().getPatternFromTitle("Tiger"));
     }
 
     public void update(float dt) {

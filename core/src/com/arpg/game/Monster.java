@@ -1,8 +1,8 @@
 package com.arpg.game;
 
-
 import com.arpg.game.utils.Poolable;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Monster extends Unit implements Poolable {
@@ -13,7 +13,7 @@ public class Monster extends Unit implements Poolable {
     public Monster(GameScreen gameScreen) {
         super(gameScreen);
         this.stats = new Stats();
-        this.weapon = new Weapon("Short Dark Sword", 0.8f, 2, 5);
+        this.weapon = new Weapon("Bite", 0.8f, 2, 5);
     }
 
     // ___title________,__base_att__,__base_def__,__base_hp__,__att_pl__,__def_pl__,__hp_pl__,__speed__
@@ -21,7 +21,7 @@ public class Monster extends Unit implements Poolable {
         super(null);
         String[] tokens = line.split(",");
         this.title = tokens[0].trim();
-        this.texture = Assets.getInstance().getAtlas().findRegion(title);
+        this.texture = new TextureRegion(Assets.getInstance().getAtlas().findRegion(title)).split(80, 80);
         this.stats = new Stats(
                 0,
                 Integer.parseInt(tokens[1].trim()),
@@ -32,7 +32,7 @@ public class Monster extends Unit implements Poolable {
                 Integer.parseInt(tokens[6].trim()),
                 Float.parseFloat(tokens[7].trim())
         );
-        this.weapon = new Weapon("Short Dark Sword", 0.8f, 2, 5);
+        this.weapon = new Weapon("Bite", 0.8f, 2, 5);
     }
 
     public String getTitle() {
@@ -44,8 +44,9 @@ public class Monster extends Unit implements Poolable {
         return stats.getHp() > 0;
     }
 
-    public void setup(int level, float x, float y, com.arpg.game.Monster pattern) {
+    public void setup(int level, float x, float y, Monster pattern) {
         this.stats.set(level, pattern.stats);
+        this.title = pattern.title;
         this.texture = pattern.texture;
         if (x < 0 && y < 0) {
             this.gs.getMap().setRefVectorToEmptyPoint(position);
@@ -73,6 +74,7 @@ public class Monster extends Unit implements Poolable {
         tmp.set(position).add(direction.getX() * stats.getSpeed() * dt, direction.getY() * stats.getSpeed() * dt);
         if (gs.getMap().isCellPassable(tmp)) {
             position.set(tmp);
+            walkTimer += dt;
             area.setPosition(position);
         }
 
@@ -85,7 +87,7 @@ public class Monster extends Unit implements Poolable {
             tmp.set(position).add(direction.getX() * 60, direction.getY() * 60);
             if (gs.getHero().getArea().contains(tmp)) {
                 gs.getEffectController().setup(tmp.x, tmp.y, 1);
-                gs.getHero().takeDamage(weapon.getDamage(), Color.RED);
+                gs.getHero().takeDamage(this, BattleCalc.calculateDamage(this, gs.getHero()), Color.RED);
             }
         }
     }
