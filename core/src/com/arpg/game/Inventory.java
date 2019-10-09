@@ -12,11 +12,6 @@ public class Inventory {
     private int coins;
     private int selected;
 
-    public Inventory(Hero hero) {
-        this.hero = hero;
-        this.items = new ArrayList<>();
-    }
-
     public int getCoins() {
         return coins;
     }
@@ -57,6 +52,11 @@ public class Inventory {
         Weapon tmp = hero.weapon;
         hero.weapon = (Weapon) getCurrentItem();
         items.set(selected, tmp);
+    }
+
+    public Inventory(Hero hero) {
+        this.hero = hero;
+        this.items = new ArrayList<>();
     }
 
     public void render(SpriteBatch batch, BitmapFont font) {

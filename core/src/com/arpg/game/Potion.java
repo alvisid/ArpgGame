@@ -1,15 +1,15 @@
 package com.arpg.game;
 
 public class Potion implements Item {
-    private String title;
-    private Type type;
-    private int power;
-
     public Potion(String title, Type type, int power) {
         this.title = title;
         this.type = type;
         this.power = power;
     }
+
+    private String title;
+    private Type type;
+    private int power;
 
     @Override
     public Item.Type getItemType() {

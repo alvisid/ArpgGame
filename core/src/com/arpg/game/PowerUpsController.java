@@ -6,15 +6,15 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
 public class PowerUpsController extends ObjectPool<PowerUp> {
+    @Override
+    protected PowerUp newObject() {
+        return new PowerUp();
+    }
+
     private TextureRegion[][] texture;
 
     public PowerUpsController() {
         this.texture = new TextureRegion(Assets.getInstance().getAtlas().findRegion("powerUps")).split(30, 30);
-    }
-
-    @Override
-    protected PowerUp newObject() {
-        return new PowerUp();
     }
 
     public void setup(float x, float y, float probability, int count, int level) {

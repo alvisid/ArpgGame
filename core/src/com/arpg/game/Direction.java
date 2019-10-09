@@ -16,18 +16,18 @@ public enum Direction {
         return y;
     }
 
-    Direction(int x, int y, float angle, int imageIndex) {
-        this.x = x;
-        this.y = y;
-        this.angle = angle;
-        this.imageIndex = imageIndex;
+    public int getImageIndex() {
+        return imageIndex;
     }
 
     public float getAngle() {
         return angle;
     }
 
-    public int getImageIndex() {
-        return imageIndex;
+    Direction(int x, int y, float angle, int imageIndex) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        this.imageIndex = imageIndex;
     }
 }

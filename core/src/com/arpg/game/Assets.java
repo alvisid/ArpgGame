@@ -11,9 +11,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 
 public class Assets {
-    private static final com.arpg.game.Assets ourInstance = new com.arpg.game.Assets();
+    private static final Assets ourInstance = new Assets();
 
-    public static com.arpg.game.Assets getInstance() {
+    public static Assets getInstance() {
         return ourInstance;
     }
 
@@ -35,7 +35,7 @@ public class Assets {
     public void loadAssets(ScreenManager.ScreenType type) {
         switch (type) {
             case MENU:
-                assetManager.load("image/game.pack", TextureAtlas.class);
+                assetManager.load("images/game.pack", TextureAtlas.class);
                 createStandardFont(24);
                 break;
             case GAME:

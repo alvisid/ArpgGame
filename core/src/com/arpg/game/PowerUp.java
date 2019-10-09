@@ -5,17 +5,17 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class PowerUp implements Poolable {
-    private Type type;
-    private int level;
-    private boolean active;
-    private Vector2 position;
-    private Vector2 velocity;
-
     public PowerUp() {
         this.active = false;
         this.position = new Vector2(0.0f, 0.0f);
         this.velocity = new Vector2(0.0f, 0.0f);
     }
+
+    private Type type;
+    private int level;
+    private boolean active;
+    private Vector2 position;
+    private Vector2 velocity;
 
     @Override
     public boolean isActive() {
@@ -38,6 +38,16 @@ public class PowerUp implements Poolable {
         return position;
     }
 
+    public enum Type {
+        COINS(0), MEDKIT(1), WEAPON(2);
+
+        int index;
+
+        Type(int index) {
+            this.index = index;
+        }
+    }
+
     public void setup(float x, float y, int level) {
         this.level = level;
         this.position.set(x, y);
@@ -50,16 +60,6 @@ public class PowerUp implements Poolable {
         if (velocity.y > -80.0f) {
             position.mulAdd(velocity, dt);
             velocity.y -= 120.0f * dt;
-        }
-    }
-
-    public enum Type {
-        COINS(0), MEDKIT(1), WEAPON(2);
-
-        int index;
-
-        Type(int index) {
-            this.index = index;
         }
     }
 }

@@ -22,16 +22,6 @@ public abstract class Unit implements MapElement {
     protected float walkTimer;
     protected float timePerFrame;
 
-    public Unit(GameScreen gameScreen) {
-        this.gs = gameScreen;
-        this.hpTexture = Assets.getInstance().getAtlas().findRegion("monsterHp");
-        this.position = new Vector2(0.0f, 0.0f);
-        this.area = new Circle(0, 0, 32);
-        this.tmp = new Vector2(0.0f, 0.0f);
-        this.timePerFrame = 0.1f;
-        this.direction = Direction.DOWN;
-    }
-
     public Stats getStats() {
         return stats;
     }
@@ -43,6 +33,16 @@ public abstract class Unit implements MapElement {
     @Override
     public int getCellX() {
         return (int) (position.x / 80);
+    }
+
+    public Unit(GameScreen gameScreen) {
+        this.gs = gameScreen;
+        this.hpTexture = Assets.getInstance().getAtlas().findRegion("monsterHp");
+        this.position = new Vector2(0.0f, 0.0f);
+        this.area = new Circle(0, 0, 32);
+        this.tmp = new Vector2(0.0f, 0.0f);
+        this.timePerFrame = 0.1f;
+        this.direction = Direction.DOWN;
     }
 
     public Vector2 getPosition() {
@@ -70,6 +70,7 @@ public abstract class Unit implements MapElement {
             int exp = BattleCalc.calculateExp(attacker, this);
             attacker.getStats().addExp(exp);
             gs.getInfoController().setup(attacker.getPosition().x, attacker.getPosition().y + 40, "exp +" + exp, Color.YELLOW);
+            gs.getPowerUpsController().setup(position.x, position.y, 1.2f, 2, stats.getLevel());
         }
     }
 
