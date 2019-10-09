@@ -13,13 +13,6 @@ public class Effect implements Poolable {
     private float timePerFrame;
     private int index;
 
-    public Effect() {
-        this.active = false;
-        this.texture = new TextureRegion(Assets.getInstance().getAtlas().findRegion("wanim")).split(60, 60);
-        this.position = new Vector2(0.0f, 0.0f);
-        this.timePerFrame = 0.05f;
-    }
-
     @Override
     public boolean isActive() {
         return active;
@@ -27,6 +20,13 @@ public class Effect implements Poolable {
 
     public Vector2 getPosition() {
         return position;
+    }
+
+    public Effect() {
+        this.active = false;
+        this.texture = new TextureRegion(Assets.getInstance().getAtlas().findRegion("wanim")).split(60, 60);
+        this.position = new Vector2(0.0f, 0.0f);
+        this.timePerFrame = 0.05f;
     }
 
     public void setup(float x, float y, int index) {
