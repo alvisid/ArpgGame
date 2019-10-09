@@ -21,15 +21,13 @@ public class GameScreen extends AbstractScreen {
     private Map map;
     private Hero hero;
     private Bestiary bestiary;
-    private static int RULE_MONSTER_PER_WAVE = 10;
     private MonsterController monsterController;
     private InfoController infoController;
     private EffectController effectController;
     private BitmapFont font24;
     private Vector2 mouse;
     private Vector2 tmp;
-    private static float LEVEL_DURATION = 60.0f;
-    private PowerUpsController powerUpsController;
+    private float spawnTimer;
     private List<MapElement>[] drawables;
     private int gameLevel;
     private float gameLevelTimer;
@@ -38,10 +36,6 @@ public class GameScreen extends AbstractScreen {
 
     public MonsterController getMonsterController() {
         return monsterController;
-    }
-
-    public PowerUpsController getPowerUpsController() {
-        return powerUpsController;
     }
 
     public EffectController getEffectController() {
@@ -68,18 +62,6 @@ public class GameScreen extends AbstractScreen {
         return hero;
     }
 
-    // План игры:
-    // - + Каждую минуту появляется волна монстров, старые монстры никуда не деваются
-    // - + В каждой волне по 10 монстров
-    // - + Вопрос: Как зависит сила монстров от номера волны? [monsterLevel = (int)(waveLevel / 3)]
-
-    // - + Выпадающее оружие, с возможностью его взять, но навсегда выбросить старое
-    // - Если монстры 2 минуты не сталкиваются с игроком, начинают драться между собой
-    // - Если монстр набил 3 уровня, у него появляется жажда крови и он охотится на игрока
-    // - Когда монстр убивает монстра, он полностью залечивается
-    // - Босс на каждой 5-й волне
-    // - Стреляющее оружие
-
     @Override
     public void show() {
         this.map = new Map();
@@ -89,7 +71,6 @@ public class GameScreen extends AbstractScreen {
         }
         this.hero = new Hero(this);
         this.bestiary = new Bestiary();
-        this.powerUpsController = new PowerUpsController();
         this.monsterController = new MonsterController(this);
         this.gameLevel = 1;
         for (int i = 0; i < 5; i++) {
@@ -128,12 +109,12 @@ public class GameScreen extends AbstractScreen {
         btnToMenu.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                ScreenManager.getInstance().changeScreen(ScreenManager.ScreenType.MENU);
+                Gdx.app.exit();
             }
         });
 
         menuGroup.setPosition(980, 660);
-//        stage.addActor(menuGroup);
+        stage.addActor(menuGroup);
 
         skin.dispose();
     }
@@ -189,7 +170,6 @@ public class GameScreen extends AbstractScreen {
             }
         }
 
-        powerUpsController.render(batch);
         effectController.render(batch);
         infoController.render(batch, font24);
         batch.end();
@@ -197,21 +177,19 @@ public class GameScreen extends AbstractScreen {
         ScreenManager.getInstance().getCamera().position.set(ScreenManager.HALF_WORLD_WIDTH, ScreenManager.HALF_WORLD_HEIGHT, 0);
         ScreenManager.getInstance().getCamera().update();
         batch.setProjectionMatrix(ScreenManager.getInstance().getCamera().combined);
-        batch.begin();
-        hero.renderHUD(batch, font24);
-        batch.end();
         stage.draw();
     }
 
     public void gameUpdate(float dt) {
+        spawnTimer += dt;
         gameLevelTimer += dt;
-        if (gameLevelTimer > LEVEL_DURATION) {
+        if (gameLevelTimer > 60.0f) {
             gameLevelTimer = 0.0f;
             gameLevel++;
-            int monsterSpawnMinLevel = 1 + gameLevel / 2;
-            for (int i = 0; i < RULE_MONSTER_PER_WAVE; i++) {
-                this.monsterController.setup(MathUtils.random(monsterSpawnMinLevel, monsterSpawnMinLevel + 3));
-            }
+        }
+        if (spawnTimer > 10.0f) {
+            spawnTimer = 0.0f;
+            this.monsterController.setup(MathUtils.random(gameLevel, gameLevel + 5));
         }
     }
 
@@ -237,14 +215,6 @@ public class GameScreen extends AbstractScreen {
                 }
             }
 
-            for (int i = 0; i < powerUpsController.getActiveList().size(); i++) {
-                PowerUp p = powerUpsController.getActiveList().get(i);
-                if (hero.getArea().contains(p.getPosition())) {
-                    hero.consume(p);
-                }
-            }
-
-            powerUpsController.update(dt);
             effectController.update(dt);
             infoController.update(dt);
         }

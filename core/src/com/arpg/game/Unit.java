@@ -70,7 +70,6 @@ public abstract class Unit implements MapElement {
             int exp = BattleCalc.calculateExp(attacker, this);
             attacker.getStats().addExp(exp);
             gs.getInfoController().setup(attacker.getPosition().x, attacker.getPosition().y + 40, "exp +" + exp, Color.YELLOW);
-            gs.getPowerUpsController().setup(position.x, position.y, 1.2f, 2, stats.getLevel());
         }
     }
 
