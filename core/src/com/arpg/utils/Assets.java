@@ -1,5 +1,6 @@
-package com.arpg.game;
+package com.arpg.utils;
 
+import com.arpg.screens.ScreenManager;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver;
@@ -11,9 +12,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
 
 public class Assets {
-    private static final com.arpg.game.Assets ourInstance = new com.arpg.game.Assets();
+    private static final Assets ourInstance = new Assets();
 
-    public static com.arpg.game.Assets getInstance() {
+    public static Assets getInstance() {
         return ourInstance;
     }
 
@@ -35,10 +36,12 @@ public class Assets {
     public void loadAssets(ScreenManager.ScreenType type) {
         switch (type) {
             case MENU:
+                assetManager.load("images/game.pack", TextureAtlas.class);
+                createStandardFont(24);
                 break;
             case GAME:
                 assetManager.load("images/game.pack", TextureAtlas.class);
-                createStandardFont(24);
+                createStandardFont(20);
                 break;
         }
     }
@@ -48,7 +51,7 @@ public class Assets {
         assetManager.setLoader(FreeTypeFontGenerator.class, new FreeTypeFontGeneratorLoader(resolver));
         assetManager.setLoader(BitmapFont.class, ".ttf", new FreetypeFontLoader(resolver));
         FreetypeFontLoader.FreeTypeFontLoaderParameter fontParameter = new FreetypeFontLoader.FreeTypeFontLoaderParameter();
-        fontParameter.fontFileName = "fonts/zorque.ttf";
+        fontParameter.fontFileName = "fonts/DancingSuperserif.ttf";
         fontParameter.fontParameters.size = size;
         fontParameter.fontParameters.color = Color.WHITE;
         fontParameter.fontParameters.borderWidth = 1;

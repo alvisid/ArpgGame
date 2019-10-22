@@ -1,5 +1,10 @@
-package com.arpg.game;
+package com.arpg.game.units;
 
+import com.arpg.game.GameController;
+import com.arpg.game.armory.Weapon;
+import com.arpg.game.map.MapElement;
+import com.arpg.game.utils.Direction;
+import com.arpg.utils.Assets;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -8,7 +13,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class Unit implements MapElement {
-    protected GameScreen gs;
+    protected GameController gc;
     protected TextureRegion[][] texture;
     protected TextureRegion hpTexture;
     protected Vector2 position;
@@ -21,16 +26,6 @@ public abstract class Unit implements MapElement {
     protected float attackTime;
     protected float walkTimer;
     protected float timePerFrame;
-
-    public Unit(GameScreen gameScreen) {
-        this.gs = gameScreen;
-        this.hpTexture = Assets.getInstance().getAtlas().findRegion("monsterHp");
-        this.position = new Vector2(0.0f, 0.0f);
-        this.area = new Circle(0, 0, 32);
-        this.tmp = new Vector2(0.0f, 0.0f);
-        this.timePerFrame = 0.1f;
-        this.direction = Direction.DOWN;
-    }
 
     public Stats getStats() {
         return stats;
@@ -45,6 +40,21 @@ public abstract class Unit implements MapElement {
         return (int) (position.x / 80);
     }
 
+    public Unit(GameController gameController) {
+        this.gc = gameController;
+        this.hpTexture = Assets.getInstance().getAtlas().findRegion("monsterHp");
+        this.position = new Vector2(0.0f, 0.0f);
+        this.area = new Circle(0, 0, 32);
+        this.tmp = new Vector2(0.0f, 0.0f);
+        this.timePerFrame = 0.1f;
+        this.direction = Direction.DOWN;
+    }
+
+    @Override
+    public int getCellY() {
+        return (int) (position.y / 80);
+    }
+
     public Vector2 getPosition() {
         return position;
     }
@@ -57,19 +67,18 @@ public abstract class Unit implements MapElement {
         return area;
     }
 
-    @Override
-    public int getCellY() {
-        return (int) (position.y / 80);
-    }
-
     public void takeDamage(Unit attacker, int amount, Color color) {
         stats.decreaseHp(amount);
         damageTimer = 1.0f;
-        gs.getInfoController().setup(position.x, position.y + 30, "-" + amount, color);
+        gc.getInfoController().setup(position.x, position.y + 30, "-" + amount, color);
         if (stats.getHp() <= 0) {
             int exp = BattleCalc.calculateExp(attacker, this);
             attacker.getStats().addExp(exp);
-            gs.getInfoController().setup(attacker.getPosition().x, attacker.getPosition().y + 40, "exp +" + exp, Color.YELLOW);
+            if (attacker instanceof Monster) {
+                attacker.getStats().fillHp();
+            }
+            gc.getInfoController().setup(attacker.getPosition().x, attacker.getPosition().y + 40, "exp +" + exp, Color.YELLOW);
+            gc.getPowerUpsController().setup(position.x, position.y, 1.2f, 2, stats.getLevel());
         }
     }
 

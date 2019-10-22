@@ -1,5 +1,7 @@
-package com.arpg.game;
+package com.arpg.screens;
 
+import com.arpg.ArpgGame;
+import com.arpg.utils.Assets;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -21,6 +23,7 @@ public class ScreenManager {
     private SpriteBatch batch;
     private LoadingScreen loadingScreen;
     private GameScreen gameScreen;
+    private MenuScreen menuScreen;
     private Screen targetScreen;
     private Viewport viewport;
     private Camera camera;
@@ -48,6 +51,7 @@ public class ScreenManager {
         this.camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
         this.viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, camera);
         this.gameScreen = new GameScreen(batch);
+        this.menuScreen = new MenuScreen(batch);
         this.loadingScreen = new LoadingScreen(batch);
     }
 
@@ -74,6 +78,10 @@ public class ScreenManager {
             case GAME:
                 targetScreen = gameScreen;
                 Assets.getInstance().loadAssets(ScreenType.GAME);
+                break;
+            case MENU:
+                targetScreen = menuScreen;
+                Assets.getInstance().loadAssets(ScreenType.MENU);
                 break;
         }
     }

@@ -1,4 +1,4 @@
-package com.arpg.game;
+package com.arpg.game.units;
 
 public class Stats {
     private int level;
@@ -80,6 +80,15 @@ public class Stats {
 
     public void fillHp() {
         hp = hpMax;
+    }
+
+    public int restoreHp(int amount) {
+        int hp0 = hp;
+        hp += amount;
+        if (hp > hpMax) {
+            hp = hpMax;
+        }
+        return hp - hp0;
     }
 
     public void addExp(int amount) {

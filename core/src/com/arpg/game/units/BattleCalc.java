@@ -1,4 +1,4 @@
-package com.arpg.game;
+package com.arpg.game.units;
 
 public class BattleCalc {
     public static int calculateDamage(Unit attacker, Unit target) {
